@@ -1,3 +1,14 @@
+/**
+ * Results page component for displaying processed document information
+ * 
+ * Features:
+ * - Display user's personal information (name, age)
+ * - Show extracted text content from the uploaded document
+ * - Copy text to clipboard functionality
+ * - Download results as text file
+ * - Navigation back to upload page for processing another document
+ */
+
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { Check, User, FileText, Upload, Download, Copy } from "lucide-react";
@@ -6,6 +17,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import Navigation from "@/components/navigation";
 
+/**
+ * Interface for processing results retrieved from session storage
+ */
 interface ProcessingResult {
   id: number;
   fullName: string;
@@ -15,11 +29,19 @@ interface ProcessingResult {
   fileType: string;
 }
 
+/**
+ * Results page component that displays processing results
+ * Retrieves data from session storage and handles navigation
+ */
 export default function ResultsPage() {
   const [result, setResult] = useState<ProcessingResult | null>(null);
-  const [, setLocation] = useLocation();
-  const { toast } = useToast();
+  const [, setLocation] = useLocation(); // Navigation hook
+  const { toast } = useToast(); // Toast notification system
 
+  /**
+   * Load processing results from session storage on component mount
+   * Redirects to upload page if no results are found
+   */
   useEffect(() => {
     const storedResult = sessionStorage.getItem("processingResult");
     if (storedResult) {
@@ -27,18 +49,26 @@ export default function ResultsPage() {
         setResult(JSON.parse(storedResult));
       } catch (error) {
         console.error("Failed to parse stored result:", error);
-        setLocation("/");
+        setLocation("/"); // Redirect to upload page on error
       }
     } else {
-      setLocation("/");
+      setLocation("/"); // Redirect if no results available
     }
   }, [setLocation]);
 
+  /**
+   * Navigate back to upload page for processing another document
+   * Clears current results from session storage
+   */
   const handleProcessAnother = () => {
     sessionStorage.removeItem("processingResult");
     setLocation("/");
   };
 
+  /**
+   * Copy extracted text to clipboard using the Clipboard API
+   * Shows success/error notifications
+   */
   const handleCopyText = async () => {
     if (result?.extractedText) {
       try {
@@ -57,9 +87,14 @@ export default function ResultsPage() {
     }
   };
 
+  /**
+   * Generate and download a text file containing all processing results
+   * Creates a formatted report with personal info and extracted text
+   */
   const handleDownloadResults = () => {
     if (!result) return;
 
+    // Create formatted content for the download file
     const content = `Document Processing Results
 ================================
 
@@ -74,6 +109,7 @@ ${result.extractedText}
 Generated on: ${new Date().toLocaleString()}
 `;
 
+    // Create and trigger download using Blob API
     const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -82,7 +118,7 @@ Generated on: ${new Date().toLocaleString()}
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    URL.revokeObjectURL(url); // Clean up memory
 
     toast({
       title: "Download started",
@@ -90,6 +126,7 @@ Generated on: ${new Date().toLocaleString()}
     });
   };
 
+  // Don't render anything while redirecting or if no results
   if (!result) {
     return null;
   }

@@ -1,8 +1,21 @@
+/**
+ * Global styles for the Document Text Extractor application
+ * 
+ * Includes:
+ * - Tailwind CSS framework imports
+ * - CSS custom properties for colors and theming
+ * - Base styles and utility classes
+ * - Dark mode support
+ */
+
+/* Import Tailwind CSS framework layers */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Light mode color scheme */
 :root {
+  /* Base UI colors */
   --background: hsl(0, 0%, 100%);
   --foreground: hsl(20, 14.3%, 4.1%);
   --muted: hsl(60, 4.8%, 95.9%);
@@ -13,18 +26,26 @@
   --card-foreground: hsl(20, 14.3%, 4.1%);
   --border: hsl(20, 5.9%, 90%);
   --input: hsl(20, 5.9%, 90%);
+  
+  /* Primary brand colors */
   --primary: hsl(217, 91%, 60%);
   --primary-foreground: hsl(211, 100%, 99%);
+  
+  /* Secondary UI colors */
   --secondary: hsl(60, 4.8%, 95.9%);
   --secondary-foreground: hsl(24, 9.8%, 10%);
   --accent: hsl(60, 4.8%, 95.9%);
   --accent-foreground: hsl(24, 9.8%, 10%);
+  
+  /* Status colors */
   --destructive: hsl(0, 84.2%, 60.2%);
   --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  
+  /* Focus ring and border radius */
   --ring: hsl(20, 14.3%, 4.1%);
   --radius: 0.5rem;
   
-  /* Custom colors to match design */
+  /* Custom color palette for consistent design */
   --slate-50: hsl(210, 40%, 98%);
   --slate-100: hsl(210, 40%, 96%);
   --slate-200: hsl(214, 32%, 91%);
@@ -42,6 +63,7 @@
   --red-600: hsl(0, 72%, 51%);
 }
 
+/* Dark mode color scheme */
 .dark {
   --background: hsl(240, 10%, 3.9%);
   --foreground: hsl(0, 0%, 98%);
@@ -65,11 +87,14 @@
   --radius: 0.5rem;
 }
 
+/* Base layer styles */
 @layer base {
+  /* Apply consistent border color to all elements */
   * {
     @apply border-border;
   }
 
+  /* Global body styles */
   body {
     @apply font-sans antialiased;
     background-color: var(--slate-50);
@@ -78,7 +103,9 @@
   }
 }
 
-/* Custom utility classes for the design */
+/* Custom utility classes for consistent design system */
+
+/* Slate color utilities */
 .text-slate-50 { color: var(--slate-50); }
 .text-slate-500 { color: var(--slate-500); }
 .text-slate-600 { color: var(--slate-600); }
@@ -89,6 +116,8 @@
 .bg-slate-200 { background-color: var(--slate-200); }
 .border-slate-200 { border-color: var(--slate-200); }
 .border-slate-300 { border-color: var(--slate-300); }
+
+/* Status color utilities */
 .bg-emerald-100 { background-color: var(--emerald-100); }
 .text-emerald-600 { color: var(--emerald-600); }
 .bg-red-100 { background-color: var(--red-100); }
@@ -96,6 +125,7 @@
 .text-red-500 { color: var(--red-500); }
 .text-red-600 { color: var(--red-600); }
 
+/* Primary brand color utilities */
 .hover\:border-primary-400:hover { border-color: hsl(215, 85%, 65%); }
 .bg-primary-50 { background-color: hsl(214, 100%, 97%); }
 .text-primary-500 { color: var(--primary); }
