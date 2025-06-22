@@ -1,3 +1,14 @@
+/**
+ * Upload page component for the Document Text Extractor application
+ * 
+ * Features:
+ * - Drag and drop file upload interface
+ * - Form validation for user personal information
+ * - File type and size validation
+ * - Real-time processing feedback
+ * - Navigation to results page upon completion
+ */
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,6 +24,9 @@ import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent } from "@/components/ui/card";
 import Navigation from "@/components/navigation";
 
+/**
+ * Interface for the API response after successful document processing
+ */
 interface ProcessingResult {
   id: number;
   fullName: string;
@@ -22,14 +36,20 @@ interface ProcessingResult {
   fileType: string;
 }
 
+/**
+ * Main upload page component
+ * Handles file selection, form validation, and document processing
+ */
 export default function UploadPage() {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isDragOver, setIsDragOver] = useState(false);
-  const [, setLocation] = useLocation();
-  const { toast } = useToast();
+  // Component state management
+  const [selectedFile, setSelectedFile] = useState<File | null>(null); // Currently selected file
+  const [isDragOver, setIsDragOver] = useState(false); // Drag and drop visual feedback
+  const [, setLocation] = useLocation(); // Navigation hook
+  const { toast } = useToast(); // Toast notification system
 
+  // Form setup with validation schema
   const form = useForm<UploadData>({
-    resolver: zodResolver(uploadSchema),
+    resolver: zodResolver(uploadSchema), // Zod validation integration
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -37,17 +57,24 @@ export default function UploadPage() {
     },
   });
 
+  /**
+   * React Query mutation for handling file upload and processing
+   * Handles the API request and response state management
+   */
   const uploadMutation = useMutation({
     mutationFn: async (data: UploadData & { file: File }) => {
+      // Create FormData for multipart file upload
       const formData = new FormData();
       formData.append("file", data.file);
       formData.append("firstName", data.firstName);
       formData.append("lastName", data.lastName);
       formData.append("dateOfBirth", data.dateOfBirth);
 
+      // Send request to backend API
       const response = await apiRequest("POST", "/api/upload", formData);
       return response.json() as Promise<ProcessingResult>;
     },
+    // Success handler - navigate to results page
     onSuccess: (result) => {
       toast({
         title: "Success",
@@ -57,6 +84,7 @@ export default function UploadPage() {
       sessionStorage.setItem("processingResult", JSON.stringify(result));
       setLocation("/results");
     },
+    // Error handler - show error notification
     onError: (error: any) => {
       toast({
         title: "Error",
@@ -66,8 +94,14 @@ export default function UploadPage() {
     },
   });
 
+  /**
+   * Handle file selection with validation
+   * Checks file type and size before accepting
+   */
   const handleFileSelect = (file: File) => {
     const allowedTypes = ["application/pdf", "image/jpeg", "image/jpg", "image/png"];
+    
+    // Validate file type
     if (!allowedTypes.includes(file.type)) {
       toast({
         title: "Invalid file type",
@@ -77,6 +111,7 @@ export default function UploadPage() {
       return;
     }
 
+    // Validate file size (10MB limit)
     if (file.size > 10 * 1024 * 1024) {
       toast({
         title: "File too large",
@@ -86,6 +121,7 @@ export default function UploadPage() {
       return;
     }
 
+    // File is valid, update state
     setSelectedFile(file);
   };
 
