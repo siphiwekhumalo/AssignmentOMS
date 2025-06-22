@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(217, 91%, 60%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+  
+  /* Custom colors to match design */
+  --slate-50: hsl(210, 40%, 98%);
+  --slate-100: hsl(210, 40%, 96%);
+  --slate-200: hsl(214, 32%, 91%);
+  --slate-300: hsl(213, 27%, 84%);
+  --slate-400: hsl(215, 20%, 65%);
+  --slate-500: hsl(215, 16%, 47%);
+  --slate-600: hsl(215, 19%, 35%);
+  --slate-700: hsl(215, 25%, 27%);
+  --slate-800: hsl(217, 33%, 17%);
+  --emerald-100: hsl(149, 80%, 90%);
+  --emerald-600: hsl(158, 64%, 52%);
+  --red-100: hsl(0, 93%, 94%);
+  --red-200: hsl(0, 96%, 89%);
+  --red-500: hsl(0, 84%, 60%);
+  --red-600: hsl(0, 72%, 51%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(217, 91%, 60%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    background-color: var(--slate-50);
+    color: var(--foreground);
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  }
+}
+
+/* Custom utility classes for the design */
+.text-slate-50 { color: var(--slate-50); }
+.text-slate-500 { color: var(--slate-500); }
+.text-slate-600 { color: var(--slate-600); }
+.text-slate-700 { color: var(--slate-700); }
+.text-slate-800 { color: var(--slate-800); }
+.bg-slate-50 { background-color: var(--slate-50); }
+.bg-slate-100 { background-color: var(--slate-100); }
+.bg-slate-200 { background-color: var(--slate-200); }
+.border-slate-200 { border-color: var(--slate-200); }
+.border-slate-300 { border-color: var(--slate-300); }
+.bg-emerald-100 { background-color: var(--emerald-100); }
+.text-emerald-600 { color: var(--emerald-600); }
+.bg-red-100 { background-color: var(--red-100); }
+.border-red-200 { border-color: var(--red-200); }
+.text-red-500 { color: var(--red-500); }
+.text-red-600 { color: var(--red-600); }
+
+.hover\:border-primary-400:hover { border-color: hsl(215, 85%, 65%); }
+.bg-primary-50 { background-color: hsl(214, 100%, 97%); }
+.text-primary-500 { color: var(--primary); }
+.text-primary-600 { color: hsl(217, 91%, 55%); }
+.bg-primary-500 { background-color: var(--primary); }
+.bg-primary-600 { background-color: hsl(217, 91%, 55%); }
+.hover\:bg-primary-100:hover { background-color: hsl(214, 95%, 93%); }
+.hover\:bg-primary-600:hover { background-color: hsl(217, 91%, 55%); }
+.focus\:ring-primary-500:focus { --tw-ring-color: var(--primary); }
