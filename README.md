@@ -2,6 +2,8 @@
 
 A full-stack web application that extracts text from PDF files and images using OCR technology. Users can upload documents, provide personal information, and get extracted text along with calculated age.
 
+> **Note**: This project was originally developed on Replit but is now fully standalone and can be run in any local development environment.
+
 ## Features
 
 - **File Upload**: Support for PDF files and images (PNG, JPG, JPEG)
