@@ -1,10 +1,12 @@
-import type { Express } from "express";
+import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { uploadSchema } from "@shared/schema";
 import multer from "multer";
 import Tesseract from "tesseract.js";
-import pdfParse from "pdf-parse";
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const pdfParse = require("pdf-parse");
 import { z } from "zod";
 
 // Configure multer for file uploads
@@ -13,7 +15,7 @@ const upload = multer({
   limits: {
     fileSize: 10 * 1024 * 1024, // 10MB limit
   },
-  fileFilter: (req, file, cb) => {
+  fileFilter: (req: any, file: any, cb: any) => {
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
     if (allowedTypes.includes(file.mimetype)) {
       cb(null, true);
@@ -36,7 +38,7 @@ function calculateAge(dateOfBirth: string): number {
   return age;
 }
 
-async function extractTextFromFile(file: Express.Multer.File): Promise<string> {
+async function extractTextFromFile(file: any): Promise<string> {
   try {
     if (file.mimetype === 'application/pdf') {
       // Extract text from PDF
@@ -49,13 +51,13 @@ async function extractTextFromFile(file: Express.Multer.File): Promise<string> {
     } else {
       throw new Error('Unsupported file type');
     }
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Text extraction failed: ${error.message}`);
   }
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  app.post('/api/upload', upload.single('file'), async (req, res) => {
+  app.post('/api/upload', upload.single('file'), async (req: Request & { file?: any }, res: Response) => {
     try {
       if (!req.file) {
         return res.status(400).json({ message: 'No file uploaded' });
@@ -95,7 +97,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         fileType: document.fileType,
       });
       
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ 
           message: 'Invalid form data',
@@ -110,7 +112,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/document/:id', async (req, res) => {
+  app.get('/api/document/:id', async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
@@ -123,7 +125,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       res.json(document);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Get document error:', error);
       res.status(500).json({ message: 'Failed to retrieve document' });
     }
