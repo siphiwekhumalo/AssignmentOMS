@@ -52,6 +52,8 @@ cd document-text-extractor
 npm install
 ```
 
+**Note**: The project includes some Replit-specific packages (`@replit/vite-plugin-*`) that are optional for local development. These packages will be ignored when `REPL_ID` environment variable is not set.
+
 ### 3. Start the Development Server
 
 ```bash
@@ -183,6 +185,10 @@ npm run lint
 ## Environment Variables
 
 No environment variables are required for basic functionality. The application uses in-memory storage by default.
+
+**Optional Environment Variables:**
+- `REPL_ID`: Used by Replit-specific plugins (can be ignored for local development)
+- `NODE_ENV`: Set to "production" for production builds
 
 ## Production Deployment
 
