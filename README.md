@@ -13,7 +13,7 @@ A full-stack web application that extracts text from PDF files and images using 
 ## Tech Stack
 
 ### Frontend
-- React 18
+- Next.js
 - TypeScript
 - Tailwind CSS
 - Wouter (lightweight routing)
